@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LaundryFlow - Manajemen Laundry Pintar Berbasis Website</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <!-- Chart.js CDN with graceful native canvas fallback in charts.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- ========================================== -->
+  <!-- SIDEBAR NAVIGATION -->
+  <!-- ========================================== -->
+  <aside class="sidebar" id="app-sidebar">
+    <div class="sidebar-header">
+      <div class="brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>
+      </div>
+      <div class="brand-title">
+        LaundryFlow
+        <span class="brand-subtitle">Smart Clean SIM</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Operasional Utama</div>
+      
+      <a class="nav-link active staff-owner-only" data-view="dashboard">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+        <span>Dashboard SIM</span>
+      </a>
+
+      <a class="nav-link staff-owner-only" data-view="queue">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <span>Papan Antrean</span>
+      </a>
+
+      <a class="nav-link staff-owner-only" data-view="new-order">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+        <span>Buat Pesanan (Kasir)</span>
+      </a>
+
+      <a class="nav-link" data-view="orders">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <span>Daftar Pesanan</span>
+      </a>
+
+      <div class="nav-section-title">Pelanggan & Pelacakan</div>
+
+      <a class="nav-link" data-view="tracking">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>Lacak Pesanan Publik</span>
+      </a>
+
+      <a class="nav-link customer-only" data-view="customer-portal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>Portal Pesanan Saya</span>
+      </a>
+
+      <div class="nav-section-title owner-only">Data Master & SIM</div>
+
+      <a class="nav-link owner-only" data-view="services">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+        <span>Katalog Layanan & Tarif</span>
+      </a>
+
+      <a class="nav-link staff-owner-only" data-view="customers">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Data Pelanggan</span>
+      </a>
+
+      <a class="nav-link owner-only" data-view="audit-logs">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span>Audit Log & Keamanan</span>
+      </a>
+
+      <a class="nav-link owner-only" data-view="settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>Pengaturan Outlet</span>
+      </a>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <div class="user-profile-card">
+        <div class="user-avatar" id="header-avatar-initial">LF</div>
+        <div class="user-info">
+          <div class="user-name" id="header-user-name">Memuat...</div>
+          <span class="user-role-badge role-owner" id="header-user-role">OWNER</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================== -->
+  <!-- MAIN CONTENT -->
+  <!-- ========================================== -->
+  <main class="main-content">
+    
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="toggle-sidebar-btn" id="toggle-sidebar-btn">☰</button>
+        <div class="page-title-box">
+          <h1 id="topbar-title">Sistem Informasi LaundryFlow</h1>
+          <p id="topbar-subtitle">Operasional Laundry Cerdas & Terintegrasi</p>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <!-- SIM Presentation Mode: Quick Role Switcher -->
+        <div class="role-switcher-pill" title="Beralih peran untuk demonstrasi tugas perkuliahan">
+          <span style="font-size:0.75rem; color:#64748b; font-weight:600; padding-left:8px;">Mode Demo:</span>
+          <button class="role-btn active" data-role="OWNER" onclick="switchRole('OWNER')">👑 Pemilik</button>
+          <button class="role-btn" data-role="STAFF" onclick="switchRole('STAFF')">👔 Karyawan</button>
+          <button class="role-btn" data-role="CUSTOMER" onclick="switchRole('CUSTOMER')">🛍️ Pelanggan</button>
+        </div>
+
+        <button class="btn-icon-topbar" title="Notifikasi" onclick="switchView('customer-portal')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <span class="notif-dot"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- VIEW: DASHBOARD SIM -->
+    <!-- ========================================== -->
+    <section class="view-container active" id="view-dashboard">
+      <!-- Metric Cards -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div>
+            <div class="metric-title">Pesanan Hari Ini</div>
+            <div class="metric-value" id="metric-today-orders">0</div>
+            <div class="metric-subtitle">📦 Pesanan masuk hari ini</div>
+          </div>
+          <div class="metric-icon-box blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v1"></path><path d="M18 8h4a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-4"></path><circle cx="8" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle></svg>
+          </div>
+        </div>
+
+        <div class="metric-card card-secondary">
+          <div>
+            <div class="metric-title">Pesanan Aktif</div>
+            <div class="metric-value" id="metric-active-orders">0</div>
+            <div class="metric-subtitle">⚙️ Belum selesai / diserahkan</div>
+          </div>
+          <div class="metric-icon-box cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+          </div>
+        </div>
+
+        <div class="metric-card card-success">
+          <div>
+            <div class="metric-title">Siap Diambil</div>
+            <div class="metric-value" id="metric-ready-orders">0</div>
+            <div class="metric-subtitle">✨ Menunggu serah terima</div>
+          </div>
+          <div class="metric-icon-box emerald">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div>
+            <div class="metric-title">Pendapatan Hari Ini</div>
+            <div class="metric-value" id="metric-revenue-today">Rp 0</div>
+            <div class="metric-subtitle">💰 Kas & QRIS tercatat</div>
+          </div>
+          <div class="metric-icon-box blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          </div>
+        </div>
+
+        <div class="metric-card card-warning">
+          <div>
+            <div class="metric-title">Piutang Belum Lunas</div>
+            <div class="metric-value" id="metric-unpaid">Rp 0</div>
+            <div class="metric-subtitle">⏳ Tagihan berjalan pelanggan</div>
+          </div>
+          <div class="metric-icon-box amber">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div>
+            <div class="metric-title">Antrean Belum Mulai</div>
+            <div class="metric-value" id="metric-waiting-queue">0</div>
+            <div class="metric-subtitle">📋 Menunggu proses cuci</div>
+          </div>
+          <div class="metric-icon-box cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="analytics-grid">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              Tren Pesanan & Pendapatan 7 Hari Terakhir
+            </h3>
+            <span class="col-count-pill">Live Database</span>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="chart-daily-trend" height="280"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+              Distribusi Status Pengerjaan
+            </h3>
+          </div>
+          <div class="chart-wrapper" style="display:flex; justify-content:center; align-items:center;">
+            <canvas id="chart-status-donut" height="260"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIM Intelligence & Peak Period Section -->
+      <div class="analytics-grid">
+        <!-- Operational Recommendations -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              Rekomendasi Cerdas Sistem Informasi Manajemen (SIM)
+            </h3>
+            <span style="font-size:0.75rem; color:#64748b;">Evaluasi Kapasitas & Staf</span>
+          </div>
+          <div class="sim-insights-list" id="sim-insights-container">
+            <!-- Dynamic insights -->
+          </div>
+        </div>
+
+        <!-- Peak Hours Heatmap -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              Periode Ramai (Peak Hours)
+            </h3>
+          </div>
+          <div id="peak-hours-list" style="display:flex; flex-direction:column; gap:8px;">
+            <!-- Dynamic hours -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Orders Table -->
+      <div class="card" style="margin-top:24px;">
+        <div class="card-header">
+          <h3 class="card-title">Pesanan Masuk Terbaru</h3>
+          <button class="btn btn-secondary btn-sm" onclick="switchView('orders')">Lihat Semua Pesanan →</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Kode Order</th>
+                <th>Pelanggan</th>
+                <th>Status Pengerjaan</th>
+                <th>Pembayaran</th>
+                <th>Total</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="recent-orders-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: KANBAN QUEUE PIPELINE BOARD -->
+    <!-- ========================================== -->
+    <section class="view-container" id="view-queue">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+        <div>
+          <h2>Papan Antrean & Pipeline Operasional</h2>
+          <p style="color:#64748b; font-size:0.85rem;">Pantau dan geser tahapan pencucian pakaian secara real-time</p>
+        </div>
+        <button class="btn btn-primary" onclick="switchView('new-order')">+ Buat Pesanan Baru</button>
+      </div>
+
+      <div class="kanban-board">
+        <!-- Col 1: Queue -->
+        <div class="kanban-col">
+          <div class="kanban-header col-queue">
+            <div class="kanban-title">1. Antrean Masuk</div>
+            <span class="col-count-pill" id="cnt-queue">0</span>
+          </div>
+          <div class="kanban-cards-wrapper" id="col-cards-queue"></div>
+        </div>
+
+        <!-- Col 2: In Process -->
+        <div class="kanban-col">
+          <div class="kanban-header col-process">
+            <div class="kanban-title">2. Sedang Dikerjakan</div>
+            <span class="col-count-pill" id="cnt-process">0</span>
+          </div>
+          <div class="kanban-cards-wrapper" id="col-cards-process"></div>
+        </div>
+
+        <!-- Col 3: Ready for pickup -->
+        <div class="kanban-col">
+          <div class="kanban-header col-ready">
+            <div class="kanban-title">3. Siap Diambil</div>
+            <span class="col-count-pill" id="cnt-ready">0</span>
+          </div>
+          <div class="kanban-cards-wrapper" id="col-cards-ready"></div>
+        </div>
+
+        <!-- Col 4: Completed -->
+        <div class="kanban-col">
+          <div class="kanban-header col-done">
+            <div class="kanban-title">4. Selesai Diserahkan</div>
+            <span class="col-count-pill" id="cnt-done">0</span>
+          </div>
+          <div class="kanban-cards-wrapper" id="col-cards-done"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: NEW ORDER FORM (KASIR POS) -->
+    <!-- ========================================== -->
+    <section class="view-container" id="view-new-order">
+      <div style="max-width: 900px; margin: 0 auto;">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+              Buat Pesanan Baru (Kasir POS)
+            </h2>
+            <span class="col-count-pill">Kode Unik Otomatis (LF-YYYYMMDD-XXXX)</span>
+          </div>
+
+          <!-- 1. Customer Selection -->
+          <div style="background:#f8fafc; padding:18px; border-radius:12px; margin-bottom:20px; border:1px solid #e2e8f0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <h4 style="font-size:0.95rem; font-weight:700;">Data Pelanggan</h4>
+              <label style="font-size:0.82rem; font-weight:600; cursor:pointer;">
+                <input type="checkbox" id="toggle-new-cust-fields"> + Daftarkan Pelanggan Baru Langsung
+              </label>
+            </div>
+
+            <div id="existing-customer-fields">
+              <div class="form-group">
+                <label>Pilih Pelanggan Terdaftar</label>
+                <select class="form-control" id="select-customer-order"></select>
+              </div>
+            </div>
+
+            <div id="new-customer-fields" style="display:none;">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Nama Lengkap Pelanggan *</label>
+                  <input type="text" class="form-control" id="new-cust-name" placeholder="Misal: Bapak Hendra Saputra">
+                </div>
+                <div class="form-group">
+                  <label>Nomor Telepon / WhatsApp *</label>
+                  <input type="text" class="form-control" id="new-cust-phone" placeholder="Misal: 081234567890">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Alamat / Catatan Kost</label>
+                <input type="text" class="form-control" id="new-cust-address" placeholder="Misal: Jl. Cisitu Lama No. 5">
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Services & Weight/Qty Items -->
+          <div style="margin-bottom:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <h4 style="font-size:0.95rem; font-weight:700;">Pilih Layanan Laundry & Kuantitas</h4>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="addOrderItemRow()">+ Tambah Layanan Lain</button>
+            </div>
+
+            <div id="order-items-container">
+              <!-- Item rows rendered via JS -->
+            </div>
+          </div>
+
+          <!-- 3. Smart Estimation Live Preview -->
+          <div class="smart-estimation-box">
+            <div class="smart-est-icon">⏱️</div>
+            <div style="flex:1;">
+              <div class="smart-est-title">Estimasi Cerdas Waktu Selesai:</div>
+              <div class="smart-est-time" id="preview-est-ready">Menghitung...</div>
+              <div style="font-size:0.75rem; color:#64748b;" id="preview-est-label">Memperhitungkan antrean aktif & jam kerja outlet</div>
+            </div>
+          </div>
+
+          <!-- 4. Extra Charges & Discounts -->
+          <div class="form-grid" style="margin-bottom:18px;">
+            <div class="form-group">
+              <label>Biaya Tambahan (Parfum / Express / Antar)</label>
+              <input type="number" class="form-control" id="new-order-extra" value="0" min="0" step="1000" onchange="recalculateOrderTotals()" onkeyup="recalculateOrderTotals()">
+            </div>
+            <div class="form-group">
+              <label>Potongan Diskon (Rp)</label>
+              <input type="number" class="form-control" id="new-order-discount" value="0" min="0" step="1000" onchange="recalculateOrderTotals()" onkeyup="recalculateOrderTotals()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Catatan Khusus Penanganan</label>
+            <input type="text" class="form-control" id="new-order-notes" placeholder="Misal: Pakaian putih dipisah, jangan disikat kencang, pewangi lavender">
+          </div>
+
+          <!-- 5. Instant Payment Option -->
+          <div style="background:#f1f5f9; padding:16px; border-radius:12px; margin-bottom:24px;">
+            <h4 style="font-size:0.92rem; font-weight:700; margin-bottom:10px;">Pembayaran Awal Kasir</h4>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Nominal Bayar (Rp) - Boleh 0 jika bayar saat ambil</label>
+                <input type="number" class="form-control" id="new-order-initial-pay" value="0" min="0">
+              </div>
+              <div class="form-group">
+                <label>Metode Pembayaran</label>
+                <select class="form-control" id="new-order-pay-method">
+                  <option value="CASH">Tunai (Cash)</option>
+                  <option value="QRIS">QRIS Dinamis</option>
+                  <option value="TRANSFER">Transfer Bank</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary & Submit -->
+          <div style="display:flex; align-items:center; justify-content:space-between; border-top:1px solid #e2e8f0; padding-top:20px;">
+            <div>
+              <div style="font-size:0.8rem; color:#64748b;">Subtotal: <span id="summary-subtotal">Rp 0</span></div>
+              <div style="font-size:1.35rem; font-weight:800; color:#0f172a;">Total Tagihan: <span id="summary-total" style="color:#2563eb;">Rp 0</span></div>
+            </div>
+            <button class="btn btn-primary btn-lg" onclick="submitCreateOrder()">
+              💾 Simpan Pesanan & Cetak Struk
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: ALL ORDERS TABLE -->
+    <!-- ========================================== -->
+    <section class="view-container" id="view-orders">
+      <div class="card">
+        <div class="card-header" style="flex-wrap:wrap; gap:12px;">
+          <h2 class="card-title">Manajemen Semua Pesanan</h2>
+          
+          <div style="display:flex; gap:10px;">
+            <input type="text" id="search-order-input" class="form-control" placeholder="Cari kode / nama / telp..." onkeyup="loadOrdersTable()" style="width:220px;">
+            <select id="filter-order-status" class="form-control" onchange="loadOrdersTable()" style="width:160px;">
+              <option value="ALL">Semua Status</option>
+              <option value="ACTIVE">Aktif Saja</option>
+              <option value="RECEIVED">Diterima</option>
+              <option value="WASHING">Pencucian</option>
+              <option value="DRYING">Pengeringan</option>
+              <option value="IRONING">Setrika</option>
+              <option value="READY">Siap Diambil</option>
+              <option value="COMPLETED">Selesai</option>
+              <option value="ON_HOLD">Ditahan</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Kode Order</th>
+                <th>Pelanggan</th>
+                <th>Layanan & Qty</th>
+                <th>Status Pengerjaan</th>
+                <th>Pembayaran</th>
+                <th>Total</th>
+                <th>Est. Selesai</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="all-orders-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: PUBLIC ORDER TRACKING -->
+    <!-- ========================================== -->
+    <section class="view-container" id="view-tracking">
+      <div class="tracking-hero">
+        <h2 style="font-size:2rem; font-weight:800; margin-bottom:8px;">Lacak Cucian Anda Secara Real-Time</h2>
+        <p style="color:#93c5fd; font-size:0.95rem;">Cek status cucian kapan pun tanpa perlu menunggu balasan chat staf laundry</p>
+
+        <div class="tracking-search-bar">
+          <input type="text" id="public-track-code" placeholder="Masukkan Kode Order (cth: LF-20261024-0001) atau No. HP">
+          <button class="btn btn-primary" onclick="performPublicTrack()">Lacak Sekarang</button>
+        </div>
+      </div>
+
+      <!-- Tracking Result Container -->
+      <div id="track-result-box" style="display:none; max-width:850px; margin:0 auto;">
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e2e8f0; padding-bottom:16px;">
+            <div>
+              <span class="order-code-badge" id="track-res-code" style="font-size:1.1rem; padding:4px 10px;">LF-20261024-0001</span>
+              <h3 style="margin-top:6px; font-size:1.2rem;" id="track-res-cust">Nama Pelanggan</h3>
+            </div>
+            <div id="track-res-status-badge"></div>
+          </div>
+
+          <!-- Stepper Visual -->
+          <div class="order-stepper">
+            <div class="stepper-progress-fill" id="stepper-progress-fill"></div>
+            
+            <div class="step-node completed" data-step="RECEIVED">
+              <div class="step-circle">1</div>
+              <div class="step-label">Diterima</div>
+            </div>
+            <div class="step-node" data-step="WASHING">
+              <div class="step-circle">2</div>
+              <div class="step-label">Dicuci</div>
+            </div>
+            <div class="step-node" data-step="DRYING">
+              <div class="step-circle">3</div>
+              <div class="step-label">Dikeringkan</div>
+            </div>
+            <div class="step-node" data-step="IRONING">
+              <div class="step-circle">4</div>
+              <div class="step-label">Disetrika</div>
+            </div>
+            <div class="step-node" data-step="READY_FOR_PICKUP">
+              <div class="step-circle">5</div>
+              <div class="step-label">Siap Ambil</div>
+            </div>
+            <div class="step-node" data-step="COMPLETED">
+              <div class="step-circle">6</div>
+              <div class="step-label">Selesai</div>
+            </div>
+          </div>
+
+          <!-- Estimated Ready Info -->
+          <div class="smart-estimation-box">
+            <div class="smart-est-icon">✨</div>
+            <div>
+              <div class="smart-est-title">Target Estimasi Selesai:</div>
+              <div class="smart-est-time" id="track-res-est">-</div>
+              <div style="font-size:0.75rem; color:#64748b;" id="track-res-label">Akurasi Berdasarkan Antrean Nyata</div>
+            </div>
+          </div>
+
+          <!-- Items and bill -->
+          <div style="margin-top:20px;">
+            <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:10px;">Rincian Pakaian</h4>
+            <div id="track-res-items"></div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; padding-top:12px; border-top:1px dashed #cbd5e1;">
+              <div>Status Tagihan: <span id="track-res-pay-status"></span></div>
+              <div style="font-size:1.2rem; font-weight:800;">Total: <span id="track-res-total" style="color:#2563eb;">Rp 0</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: CUSTOMER PORTAL -->
+    <!-- ========================================== -->
+    <section class="view-container" id="view-customer-portal">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Portal Pelanggan - Riwayat Cucian Anda</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>No. Order</th>
+                <th>Layanan</th>
+                <th>Status Pengerjaan</th>
+                <th>Status Pembayaran</th>
+                <th>Perkiraan Selesai</th>
+                <th>Rincian</th>
+              </tr>
+            </thead>
+            <tbody id="cust-portal-orders-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: SERVICES CATALOG -->
+    <!-- ========================================== -->
+    <section class="view-container" id="view-services">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Katalog Layanan & Tarif Outlet</h2>
+          <span class="col-count-pill">Tarif Berlaku (Snapshot Harga Transaksi)</span>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nama Layanan</th>
+                <th>Satuan</th>
+                <th>Tarif Dasar</th>
+                <th>Standar Durasi</th>
+                <th>Jenis</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="services-table-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: CUSTOMERS DIRECTORY -->
+    <!-- ========================================== -->
+    <section class="view-container" id="view-customers">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Direktori Data Pelanggan</h2>
+          <span class="col-count-pill">Deduplikasi No. WhatsApp</span>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nama Pelanggan</th>
+                <th>Nomor Telepon</th>
+                <th>Alamat</th>
+                <th>Frekuensi Order</th>
+                <th>Total Belanja</th>
+                <th>Order Terakhir</th>
+              </tr>
+            </thead>
+            <tbody id="customers-table-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: SETTINGS -->
+    <!-- ========================================== -->
+    <section class="view-container" id="view-settings">
+      <div style="max-width:800px; margin:0 auto;">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Pengaturan Profil & Jam Operasional Outlet</h2>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nama Outlet Laundry</label>
+              <input type="text" class="form-control" id="setting-outlet-name">
+            </div>
+            <div class="form-group">
+              <label>Nomor Telepon Outlet</label>
+              <input type="text" class="form-control" id="setting-outlet-phone">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Alamat Lengkap</label>
+            <input type="text" class="form-control" id="setting-outlet-address">
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Jam Buka Operasional</label>
+              <input type="text" class="form-control" id="setting-outlet-opens" placeholder="08:00">
+            </div>
+            <div class="form-group">
+              <label>Jam Tutup Operasional</label>
+              <input type="text" class="form-control" id="setting-outlet-closes" placeholder="21:00">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Kapasitas Mesin Maksimal per Hari (KG)</label>
+            <input type="number" class="form-control" id="setting-outlet-capacity" value="250">
+          </div>
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; padding-top:16px; border-top:1px solid #e2e8f0;">
+            <button class="btn btn-danger" onclick="resetDemoData()">⚠️ Reset Seluruh Data Demo</button>
+            <button class="btn btn-primary" onclick="saveSettings()">Simpan Pengaturan</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: AUDIT LOGS -->
+    <!-- ========================================== -->
+    <section class="view-container" id="view-audit-logs">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Audit Trail Transaksi & Perubahan</h2>
+          <span class="col-count-pill">Integritas Data SIM</span>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Waktu</th>
+                <th>Pelaku / Aktor</th>
+                <th>Aksi</th>
+                <th>Entitas</th>
+                <th>Rincian Catatan</th>
+              </tr>
+            </thead>
+            <tbody id="audit-logs-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ========================================== -->
+<!-- MODAL: ORDER DETAIL & ACTIONS -->
+<!-- ========================================== -->
+<div class="modal-overlay" id="order-detail-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <span class="order-code-badge" id="modal-order-code" style="font-size:1.1rem; padding:4px 8px;">LF-0000</span>
+        <div id="modal-order-cust" style="font-size:0.85rem; color:#64748b; margin-top:4px;">Pelanggan</div>
+      </div>
+      <button class="btn-close-modal" onclick="closeOrderDetailModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Status & Times -->
+      <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:12px; border-radius:10px; margin-bottom:16px;">
+        <div>
+          <div style="font-size:0.75rem; color:#64748b;">Status Saat Ini:</div>
+          <div id="modal-order-status-badge" style="margin-top:4px;"></div>
+        </div>
+        <div>
+          <div style="font-size:0.75rem; color:#64748b;">Status Tagihan:</div>
+          <div id="modal-order-pay-badge" style="margin-top:4px;"></div>
+        </div>
+        <div>
+          <div style="font-size:0.75rem; color:#64748b;">Target Selesai:</div>
+          <strong id="modal-order-estimated" style="font-size:0.88rem;">-</strong>
+        </div>
+      </div>
+
+      <!-- Items List -->
+      <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:8px;">Item Cucian:</h4>
+      <table class="data-table" style="margin-bottom:16px;">
+        <thead>
+          <tr>
+            <th>Layanan</th>
+            <th>Qty</th>
+            <th>Tarif</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody id="modal-items-tbody"></tbody>
+      </table>
+
+      <!-- Billing breakdown -->
+      <div style="background:#eff6ff; padding:12px 16px; border-radius:8px; margin-bottom:16px; border:1px solid #bfdbfe;">
+        <div class="receipt-row"><span>Total Tagihan:</span><strong id="modal-order-total">Rp 0</strong></div>
+        <div class="receipt-row"><span>Sudah Dibayar:</span><span id="modal-order-paid">Rp 0</span></div>
+        <div class="receipt-row" style="font-size:1rem; font-weight:bold; color:#1e40af; border-top:1px dashed #bfdbfe; padding-top:6px; margin-top:6px;">
+          <span>Sisa Tagihan:</span>
+          <span id="modal-order-remaining">Rp 0</span>
+        </div>
+      </div>
+
+      <!-- Staff Actions: Advance Status -->
+      <div class="staff-owner-only" style="background:#f1f5f9; padding:14px; border-radius:10px; margin-bottom:16px;">
+        <h4 style="font-size:0.88rem; font-weight:700; margin-bottom:10px;">Perbarui Status Pengerjaan</h4>
+        <div style="display:flex; gap:10px;">
+          <select class="form-control" id="modal-change-status-select" style="flex:1;">
+            <option value="RECEIVED">1. Diterima (RECEIVED)</option>
+            <option value="QUEUED">2. Masuk Antrean (QUEUED)</option>
+            <option value="WASHING">3. Pencucian Mesin (WASHING)</option>
+            <option value="DRYING">4. Pengeringan (DRYING)</option>
+            <option value="IRONING">5. Setrika Uap (IRONING)</option>
+            <option value="QUALITY_CHECK">6. Cek Kualitas & Packing (QUALITY_CHECK)</option>
+            <option value="READY_FOR_PICKUP">7. Siap Diambil (READY_FOR_PICKUP)</option>
+            <option value="COMPLETED">8. Selesai Diserahkan (COMPLETED)</option>
+            <option value="ON_HOLD">⚠️ Ditahan / Kendala (ON_HOLD)</option>
+          </select>
+          <input type="text" class="form-control" id="modal-change-status-note" placeholder="Catatan / alasan status..." style="flex:1;">
+          <button class="btn btn-primary btn-sm" onclick="submitModalStatusChange()">Update</button>
+        </div>
+      </div>
+
+      <!-- Staff Actions: Record Payment -->
+      <div class="staff-owner-only" style="background:#ecfdf5; padding:14px; border-radius:10px; margin-bottom:16px; border:1px solid #a7f3d0;">
+        <h4 style="font-size:0.88rem; font-weight:700; color:#065f46; margin-bottom:10px;">Catat Pembayaran Masuk</h4>
+        <div style="display:flex; gap:10px;">
+          <input type="number" class="form-control" id="modal-pay-amount" placeholder="Nominal Rp" style="flex:1;">
+          <select class="form-control" id="modal-pay-method" style="flex:1;">
+            <option value="CASH">Tunai (Cash)</option>
+            <option value="QRIS">QRIS Dinamis</option>
+            <option value="TRANSFER">Transfer Bank</option>
+          </select>
+          <button class="btn btn-success btn-sm" onclick="submitModalPayment()">Bayar</button>
+        </div>
+      </div>
+
+      <!-- Status History Timeline -->
+      <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:8px;">Riwayat Status & Audit Trail:</h4>
+      <div id="modal-timeline-history" style="max-height:160px; overflow-y:auto; padding:8px; background:#f8fafc; border-radius:8px;"></div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="printOrderReceipt()">🖨️ Cetak Struk Nota</button>
+      <button class="btn btn-primary" onclick="closeOrderDetailModal()">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- PRINT AREA (FOR THERMAL RECEIPT) -->
+<!-- ========================================== -->
+<div id="print-area"></div>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- APP SCRIPTS -->
+<script src="/static/js/charts.js"></script>
+<script src="/static/js/app.js"></script>
+
+</body>
+</html>
